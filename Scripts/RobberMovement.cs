@@ -6,7 +6,7 @@ public class RobberMovement : MonoBehaviour
 {
     [SerializeField] private float _speed;
 
-    void Update()
+    private void Update()
     {
         if (Input.GetKey(KeyCode.A))
             transform.Translate(Time.deltaTime * _speed * -1, 0, 0);
