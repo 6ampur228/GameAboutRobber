@@ -5,38 +5,46 @@ using UnityEngine;
 public class Signaling : MonoBehaviour
 {
     [SerializeField] private AudioSource _signaling;
-    [SerializeField] private float _speedDeceleration;
 
-    private int _countFrame = 700;
+    private float _minVolume = 0f;
+    private float _maxVolume = 1f;
+
+    //private IEnumerator coroutineIncreaseVolume;
+    //private IEnumerator coroutineDecreaseVolume;
+
+    /*public void Start()
+    {
+        coroutineIncreaseVolume = IncreaseOrDecreaseVolume(_maxVolume);
+        coroutineDecreaseVolume = IncreaseOrDecreaseVolume(_minVolume);
+    }*/
 
     public void IncreaseVolume()
     {
-        int positiveValue = 1;
-
-        _signaling.volume = 0f;
-        _signaling.Play();
-
-        StartCoroutine(IncreaseOrDecreaseVolume(positiveValue));
+        //StopCoroutine(coroutineDecreaseVolume);
+        //StartCoroutine(coroutineIncreaseVolume);
+        StopAllCoroutines();
+        StartCoroutine(IncreaseOrDecreaseVolume(_maxVolume));
     }
 
     public void DecreaseVolume()
     {
-        int negativeValue = -1;
-
-        StartCoroutine(IncreaseOrDecreaseVolume(negativeValue));
+        //StopCoroutine(coroutineIncreaseVolume);
+        //StartCoroutine(coroutineDecreaseVolume);
+        StopAllCoroutines();
+        StartCoroutine(IncreaseOrDecreaseVolume(_minVolume));
     }
 
-    private IEnumerator IncreaseOrDecreaseVolume(int value)
+    public void Play()
     {
-        int minVolume = 0;
-        int maxVolume = 100;
+        _signaling.volume = _minVolume;
+        _signaling.Play();
+    }
 
-        for (int i = 0; i < _countFrame; i++)
+    private IEnumerator IncreaseOrDecreaseVolume(float volume)
+    {
+        while (_signaling.volume != volume)
         {
-            _signaling.volume += Time.deltaTime * value;
-
-            if (_signaling.volume == minVolume || _signaling.volume == maxVolume)
-                yield break;
+            _signaling.volume = Mathf.MoveTowards(_signaling.volume, volume, Time.deltaTime);
 
             yield return null;
         }

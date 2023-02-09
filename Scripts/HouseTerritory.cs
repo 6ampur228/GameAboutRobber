@@ -6,6 +6,11 @@ public class HouseTerritory: MonoBehaviour
 {
     [SerializeField] private Signaling _signaling;
 
+    private void Start()
+    {
+        _signaling.Play();
+    }
+
     public void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.TryGetComponent<Robber>(out Robber robber))
@@ -18,7 +23,7 @@ public class HouseTerritory: MonoBehaviour
     {
         if (collision.gameObject.TryGetComponent<Robber>(out Robber robber))
         {
-            _signaling.DecreaseVolume();
+            _signaling.DecreaseVolume(); 
         }
     }
 }
