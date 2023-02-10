@@ -11,7 +11,7 @@ public class HouseTerritory: MonoBehaviour
         _signaling.Play();
     }
 
-    public void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.TryGetComponent<Robber>(out Robber robber))
         {
@@ -19,7 +19,7 @@ public class HouseTerritory: MonoBehaviour
         }
     }
 
-    public void OnTriggerExit2D(Collider2D collision)
+    private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.TryGetComponent<Robber>(out Robber robber))
         {

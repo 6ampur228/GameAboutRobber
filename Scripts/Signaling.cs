@@ -6,32 +6,25 @@ public class Signaling : MonoBehaviour
 {
     [SerializeField] private AudioSource _signaling;
 
+    private Coroutine _currentCoroutine;
+
     private float _minVolume = 0f;
     private float _maxVolume = 1f;
 
-    //private IEnumerator coroutineIncreaseVolume;
-    //private IEnumerator coroutineDecreaseVolume;
-
-    /*public void Start()
-    {
-        coroutineIncreaseVolume = IncreaseOrDecreaseVolume(_maxVolume);
-        coroutineDecreaseVolume = IncreaseOrDecreaseVolume(_minVolume);
-    }*/
-
     public void IncreaseVolume()
     {
-        //StopCoroutine(coroutineDecreaseVolume);
-        //StartCoroutine(coroutineIncreaseVolume);
-        StopAllCoroutines();
-        StartCoroutine(IncreaseOrDecreaseVolume(_maxVolume));
+        if(_currentCoroutine != null)
+        {
+            StopCoroutine(_currentCoroutine);
+        }
+
+        _currentCoroutine = StartCoroutine(ChangeVolume(_maxVolume));
     }
 
     public void DecreaseVolume()
     {
-        //StopCoroutine(coroutineIncreaseVolume);
-        //StartCoroutine(coroutineDecreaseVolume);
-        StopAllCoroutines();
-        StartCoroutine(IncreaseOrDecreaseVolume(_minVolume));
+        StopCoroutine(_currentCoroutine);
+        _currentCoroutine = StartCoroutine(ChangeVolume(_minVolume));
     }
 
     public void Play()
@@ -40,7 +33,7 @@ public class Signaling : MonoBehaviour
         _signaling.Play();
     }
 
-    private IEnumerator IncreaseOrDecreaseVolume(float volume)
+    private IEnumerator ChangeVolume (float volume)
     {
         while (_signaling.volume != volume)
         {
